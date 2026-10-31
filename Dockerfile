@@ -57,17 +57,12 @@ RUN curl -fsSL -o bcprov.jar \
  && { test -s bcprov-bc.txt && cmp -s runtime-bc.txt bcprov-bc.txt \
       || { echo "runtime.jar's Bouncy Castle is not ${BCPROV_VERSION}: change BCPROV_VERSION and BCPROV_SHA256" >&2; exit 1; }; }
 
-COPY mango-extension-host/src src
-RUN mkdir out && kotlinc/bin/kotlinc src -cp suwayomi.jar -d out/mango-host.jar -jvm-target 21 -nowarn \
- && printf 'Class-Path: bcprov.jar\n' > class-path.mf \
- && jar --update --file out/mango-host.jar --manifest class-path.mf \
- && cp bcprov.jar out/bcprov.jar
-
 # Remove what the host never touches: web server, GraphQL, databases, web UI,
 # tray, Android framework resources, and the unsigned copy of Bouncy Castle.
 # The JS engine stays: some sources run a script. The classes that drive the
 # browser for web views stay; the browser itself is not in the jar.
-RUN cp suwayomi.jar out/runtime.jar \
+# Done before our code is copied in, so a change to it does not redo this.
+RUN mkdir out && cp suwayomi.jar out/runtime.jar \
  && (zip -q -d out/runtime.jar \
       'org/bouncycastle/*' 'META-INF/versions/*/org/bouncycastle/*' \
       'org/eclipse/jetty/*' 'jakarta/servlet/*' 'io/javalin/*' 'gg/jte/*' 'tools/jackson/*' \
@@ -75,6 +70,12 @@ RUN cp suwayomi.jar out/runtime.jar \
       'org/h2/*' 'org/postgresql/*' 'com/zaxxer/*' \
       'dorkbox/*' 'WebUI.zip' 'resources.arsc' 'res/*' \
     || [ $? -eq 12 ]) \
+ && cp bcprov.jar out/bcprov.jar
+
+COPY mango-extension-host/src src
+RUN kotlinc/bin/kotlinc src -cp suwayomi.jar -d out/mango-host.jar -jvm-target 21 -nowarn \
+ && printf 'Class-Path: bcprov.jar\n' > class-path.mf \
+ && jar --update --file out/mango-host.jar --manifest class-path.mf \
  && ls -l out
 
 FROM scratch AS jars

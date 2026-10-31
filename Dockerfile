@@ -221,9 +221,11 @@ RUN jlink --module-path /jmods --output /java \
 
 FROM debian:bookworm-slim AS base
 ARG SUWAYOMI_VERSION
-# Fonts are for the sources that draw text onto their pages.
+# Fonts are for the sources that draw text onto their pages. tini is the first process:
+# it reaps what the host leaves behind, such as a web view's browser processes once
+# the host has stopped, which Mango itself never waits for.
 RUN apt-get update \
- && apt-get install -y --no-install-recommends fontconfig fonts-dejavu-core libfreetype6 \
+ && apt-get install -y --no-install-recommends fontconfig fonts-dejavu-core libfreetype6 tini \
  && rm -rf /var/lib/apt/lists/* \
  && useradd --system --uid 10001 --home-dir /data mango && mkdir /data && chown mango /data
 COPY --from=java /java /opt/java
@@ -244,7 +246,7 @@ ENV HOME=/data \
 VOLUME /data
 EXPOSE 8787
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --start-interval=2s --retries=3 CMD ["mango", "health"]
-ENTRYPOINT ["mango"]
+ENTRYPOINT ["tini", "--", "mango"]
 
 # Some sources open a web view. Its browser is downloaded into the data volume the
 # first time one does; this image has the libraries the browser links and the

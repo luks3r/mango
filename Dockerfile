@@ -149,10 +149,13 @@ WORKDIR /src
 COPY mango-reader/Cargo.toml mango-reader/Cargo.lock mango-reader/build.rs mango-reader/about.toml mango-reader/about.hbs mango-reader/
 COPY mango-desktop/Cargo.toml mango-desktop/Cargo.lock mango-desktop/
 COPY --from=ui /ui/node_modules/svelte/LICENSE.md ui/svelte
+# qrcode-generator ships no licence file: its notice is the head of its source, which the build minifies away.
+COPY --from=ui /ui/node_modules/qrcode-generator/qrcode.js ui/qrcode.js
 COPY --from=ui /ui/node_modules/@fontsource/dela-gothic-one/LICENSE ui/dela-gothic-one
 COPY --from=ui /ui/node_modules/@fontsource/zen-kaku-gothic-new/LICENSE ui/zen-kaku-gothic-new
 RUN --mount=type=cache,id=mango-notices-registry,target=/usr/local/cargo/registry \
     mkdir mango-reader/src mango-desktop/src && touch mango-reader/src/main.rs mango-desktop/src/main.rs \
+ && sed -n '1,/DENSO WAVE INCORPORATED/p' ui/qrcode.js > ui/qrcode-generator && grep -q 'MIT license' ui/qrcode-generator \
  && rule=-------------------------------------------------------------------------------- \
  && { echo "Mango is built from the work of others. Their licences follow: first the Rust" \
    && echo "crates in the server, then those in the desktop shell, then what the web UI carries." \
@@ -161,7 +164,7 @@ RUN --mount=type=cache,id=mango-notices-registry,target=/usr/local/cargo/registr
         && cargo about generate --locked -m "${part#*:}/Cargo.toml" -c mango-reader/about.toml mango-reader/about.hbs \
         || exit 1; \
       done \
-   && for part in "Svelte:svelte" "Dela Gothic One:dela-gothic-one" "Zen Kaku Gothic New:zen-kaku-gothic-new"; do \
+   && for part in "Svelte:svelte" "qrcode-generator:qrcode-generator" "Dela Gothic One:dela-gothic-one" "Zen Kaku Gothic New:zen-kaku-gothic-new"; do \
         printf '\n\n%s\n%s, in the web UI\n%s\n\n' "$rule" "${part%%:*}" "$rule" && cat "ui/${part#*:}" || exit 1; \
       done; } > /THIRD-PARTY-LICENSES.txt \
  && test "$(wc -c < /THIRD-PARTY-LICENSES.txt)" -gt 20000

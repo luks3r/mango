@@ -162,7 +162,7 @@
   .dot {
     width: 30px;
     height: 30px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     border-radius: 50%;
     background: var(--spot);
   }
@@ -174,7 +174,7 @@
 
   .kana {
     padding: 3px 6px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     font-size: 11px;
     font-weight: 900;
     letter-spacing: 0.18em;
@@ -238,7 +238,7 @@
     column-gap: 32px;
     margin: 0;
     padding: 0;
-    border-top: 3px solid var(--ink);
+    border-top: 3px solid var(--line);
     list-style: none;
   }
 
@@ -247,7 +247,7 @@
     flex-direction: column;
     gap: 4px;
     padding: 14px 0;
-    border-bottom: 2px solid var(--ink);
+    border-bottom: 2px solid var(--line);
   }
 
   .features strong {

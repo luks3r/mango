@@ -139,7 +139,7 @@
   .column {
     width: 100%;
     min-height: 2px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     background: var(--spot);
   }
 
@@ -182,10 +182,10 @@
   .bar {
     display: flex;
     height: 12px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
   }
 
   .bar span {
-    background: var(--ink);
+    background: var(--line);
   }
 </style>

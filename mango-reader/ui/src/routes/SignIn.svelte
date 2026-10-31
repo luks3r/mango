@@ -140,7 +140,7 @@
   .dot {
     width: 30px;
     height: 30px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     border-radius: 50%;
     background: var(--spot);
   }

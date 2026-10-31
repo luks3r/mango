@@ -1125,7 +1125,7 @@
     gap: 12px;
     width: min(440px, calc(100% - 32px));
     padding: 16px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: var(--paper);
     color: var(--ink);
     box-shadow: var(--sh-5);
@@ -1142,7 +1142,7 @@
   .note input {
     min-height: 44px;
     padding: 0 12px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: var(--surface);
     color: var(--ink);
     font: inherit;
@@ -1216,7 +1216,7 @@
     display: flex;
     gap: 12px;
     padding: 12px max(12px, env(safe-area-inset-right)) 12px max(12px, env(safe-area-inset-left));
-    border: 0 solid var(--ink);
+    border: 0 solid var(--line);
     background: var(--paper);
     color: var(--ink);
   }
@@ -1267,7 +1267,7 @@
     flex: 1 1 160px;
     min-width: 0;
     height: 44px;
-    accent-color: var(--ink);
+    accent-color: var(--line);
   }
 
   .line select {
@@ -1292,7 +1292,7 @@
     display: flex;
     flex-direction: column;
     width: min(420px, 100%);
-    border-left: 3px solid var(--ink);
+    border-left: 3px solid var(--line);
     background: var(--paper);
     color: var(--ink);
   }
@@ -1303,7 +1303,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 12px 10px 16px;
-    border-bottom: 3px solid var(--ink);
+    border-bottom: 3px solid var(--line);
     font-size: 20px;
   }
 
@@ -1337,7 +1337,7 @@
 
   .seg {
     display: flex;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
   }
 
   .seg button {
@@ -1345,7 +1345,7 @@
     min-height: 40px;
     padding: 0 12px;
     border: 0;
-    border-right: 2px solid var(--ink);
+    border-right: 2px solid var(--line);
     background: var(--surface);
     font-size: 14px;
     font-weight: 700;
@@ -1356,8 +1356,8 @@
   }
 
   .seg button[aria-pressed='true'] {
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--line);
+    color: var(--on-line);
   }
 
   .seg button:focus-visible {
@@ -1370,7 +1370,7 @@
       left: 0;
       width: auto;
       max-height: 62dvh;
-      border-top: 3px solid var(--ink);
+      border-top: 3px solid var(--line);
       border-left: 0;
     }
   }

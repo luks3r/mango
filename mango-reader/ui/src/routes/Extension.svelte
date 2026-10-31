@@ -276,7 +276,7 @@
 
   .pref + .pref {
     padding-top: 12px;
-    border-top: 2px solid var(--ink);
+    border-top: 2px solid var(--line);
   }
 
   .what {

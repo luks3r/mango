@@ -84,7 +84,7 @@
     bottom: 8px;
     left: 8px;
     padding: 6px 8px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     background: var(--surface);
     font-size: 13px;
     font-weight: 900;
@@ -110,7 +110,7 @@
     min-width: 38px;
     height: 38px;
     padding: 0 8px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     border-radius: 19px;
     background: var(--spot);
     color: var(--on-spot);
@@ -127,7 +127,7 @@
     justify-content: center;
     width: 44px;
     height: 44px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     background: var(--surface);
   }
 

@@ -16,7 +16,7 @@
   import { againTour } from '../lib/guide.svelte';
   import { ago } from '../lib/util';
   import { checkVersion, version as about } from '../lib/version.svelte';
-  import { activeName, contrast, isHex, palette, PRESETS, saveTheme, sound, SPOTS, theme, type Theme } from '../lib/theme.svelte';
+  import { activeName, contrast, isHex, lineColour, palette, PRESETS, saveTheme, sound, SPOTS, theme, type Theme } from '../lib/theme.svelte';
 
   // One group is on screen at a time. Which one is in the address: #/settings/<id>.
   const TABS: { id: string; label: string; icon: IconName; about: string }[] = [
@@ -41,6 +41,8 @@
 
   // Body text needs this much contrast between ink and paper to stay readable.
   const ENOUGH = 7;
+  // Lines and boxes need this much against the paper to be made out (WCAG, non-text).
+  const VISIBLE = 3;
   // The reader's settings are held once for each kind of series; this is the one on show.
   let kind = $state<Kind>('manga');
   // Which kind of device the reader settings below are for: this one, unless another is picked.
@@ -60,6 +62,13 @@
   const t = $derived(theme.value);
   const d = $derived(display.value);
   const names = [...Object.keys(PRESETS), 'Custom'];
+  const LINES: [Theme['line'], string][] = [
+    ['ink', 'Ink'],
+    ['spot', 'Spot colour'],
+  ];
+  // The lines on the palette that shows them worst, of those that can show.
+  const inUse = $derived(t.follow === 'system' ? [t.light, t.dark] : [activeName(t)]);
+  const faintest = $derived(Math.min(...inUse.map((name) => palette(t, name)).map((colours) => contrast(lineColour(t, colours), colours.paper))));
 
   function change(patch: Partial<Theme>) {
     saveTheme({ ...t, ...patch }).catch((e) => (error = message(e)));
@@ -899,7 +908,7 @@
             <div class="what"><strong>Spot colour</strong><span>The one accent: main buttons, badges, highlights.</span></div>
             <div class="how">
               {#each Object.entries(SPOTS) as [name, colour] (name)}
-                <button class="btn swatch" aria-pressed={t.spot.toUpperCase() === colour} style:background={colour} style:color="#111111" style:border-color="var(--ink)" onclick={() => change({ spot: colour })}>
+                <button class="btn swatch" aria-pressed={t.spot.toUpperCase() === colour} style:background={colour} style:color="#111111" style:border-color="var(--line)" onclick={() => change({ spot: colour })}>
                   {#if t.spot.toUpperCase() === colour}<Icon name="check" size={16} stroke={4} />{/if}{name}
                 </button>
               {/each}
@@ -908,6 +917,28 @@
                 <input type="color" value={t.spot} onchange={(e) => change({ spot: e.currentTarget.value })} />
               </label>
             </div>
+          </div>
+          <div class="set stack" role="group" aria-label="Lines and boxes">
+            <div class="what">
+              <strong>Lines and boxes</strong>
+              <span>Outlines, filled boxes, shadows and dots. Ink draws them in the colour of the text. Your own stays the same in the day and the night theme.</span>
+            </div>
+            <div class="how">
+              <div class="seg" role="group" aria-label="What colour lines and boxes take">
+                {#each LINES as [value, label] (value)}
+                  <button aria-pressed={t.line === value} onclick={() => change({ line: value })}>{label}</button>
+                {/each}
+              </div>
+              <label class="btn picker">
+                {#if isHex(t.line)}<Icon name="check" size={16} stroke={4} />{/if}Your own
+                <input type="color" value={isHex(t.line) ? t.line : t.spot} onchange={(e) => change({ line: e.currentTarget.value })} />
+              </label>
+            </div>
+            {#if faintest < VISIBLE}
+              <p class="warn" role="status">
+                <strong>Hard to see.</strong> Lines want a contrast of at least {VISIBLE} to 1 against the paper; in one of your themes these give {faintest.toFixed(1)}.
+              </p>
+            {/if}
           </div>
         </section>
 
@@ -935,7 +966,7 @@
         <section class="card">
           <h3>Print effects</h3>
           <div class="set">
-            <div class="what"><strong>Hard shadows</strong><span>The offset ink shadow under covers, panels and buttons.</span></div>
+            <div class="what"><strong>Hard shadows</strong><span>The offset shadow under covers, panels and buttons, in the colour of lines and boxes.</span></div>
             <div class="how">{@render toggle(t.shadows, 'Hard shadows', () => change({ shadows: !t.shadows }))}</div>
           </div>
           <div class="set">
@@ -2007,7 +2038,7 @@
     top: 16px;
     display: flex;
     flex-direction: column;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: var(--surface);
     box-shadow: var(--sh-5);
   }
@@ -2019,7 +2050,7 @@
     gap: 10px;
     min-height: 48px;
     padding: 0 14px;
-    border-bottom: 2px solid var(--ink);
+    border-bottom: 2px solid var(--line);
     font-size: 13px;
     font-weight: 900;
     letter-spacing: 0.08em;
@@ -2032,8 +2063,8 @@
   }
 
   .rail a[aria-current='page'] {
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--line);
+    color: var(--on-line);
   }
 
   .rail a:focus-visible {
@@ -2054,15 +2085,15 @@
   /* ---------- a card of settings, one per row ---------- */
 
   .card {
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: var(--surface);
     box-shadow: var(--sh-5);
   }
 
   h3 {
     padding: 9px 16px;
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--line);
+    color: var(--on-line);
     font-size: 12px;
     font-weight: 900;
     letter-spacing: 0.14em;
@@ -2076,7 +2107,7 @@
     justify-content: space-between;
     gap: 10px 24px;
     padding: 14px 16px;
-    border-bottom: 2px solid var(--ink);
+    border-bottom: 2px solid var(--line);
   }
 
   .set:last-child {
@@ -2141,7 +2172,7 @@
     position: relative;
     width: 52px;
     height: 28px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     background: var(--paper);
   }
 
@@ -2151,7 +2182,7 @@
     left: 2px;
     width: 20px;
     height: 20px;
-    background: var(--ink);
+    background: var(--line);
     transition: transform 0.12s;
   }
 
@@ -2177,14 +2208,14 @@
 
   .seg {
     display: inline-flex;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
   }
 
   .seg button {
     min-height: 40px;
     padding: 0 16px;
     border: 0;
-    border-right: 2px solid var(--ink);
+    border-right: 2px solid var(--line);
     background: var(--surface);
     font-size: 14px;
     font-weight: 700;
@@ -2195,8 +2226,8 @@
   }
 
   .seg button[aria-pressed='true'] {
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--line);
+    color: var(--on-line);
   }
 
   .seg button:focus-visible {
@@ -2215,7 +2246,7 @@
     width: 36px;
     height: 28px;
     padding: 0;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     background: none;
   }
 
@@ -2231,7 +2262,7 @@
   .warn {
     max-width: 640px;
     padding: 12px 14px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: var(--paper);
   }
 
@@ -2253,7 +2284,7 @@
   textarea {
     width: 100%;
     padding: 10px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     background: var(--paper);
     color: var(--ink);
     font: 13px/1.4 ui-monospace, Consolas, monospace;
@@ -2270,7 +2301,7 @@
     width: 196px;
     max-width: 100%;
     padding: 6px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: #fff;
   }
 
@@ -2364,7 +2395,7 @@
       flex: 1;
       flex-wrap: wrap;
       gap: 2px;
-      background: var(--ink);
+      background: var(--line);
     }
 
     .seg button {
@@ -2374,7 +2405,7 @@
     }
 
     .rail a {
-      border-right: 2px solid var(--ink);
+      border-right: 2px solid var(--line);
       border-bottom: 0;
     }
 

@@ -18,7 +18,7 @@
     gap: 6px;
     min-height: 28px;
     padding: 3px 9px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     background: var(--spot);
     color: var(--on-spot);
     font-size: 11px;
@@ -30,7 +30,7 @@
   }
 
   .locked:hover {
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--line);
+    color: var(--on-line);
   }
 </style>

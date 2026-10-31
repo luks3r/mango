@@ -149,7 +149,7 @@
     max-height: calc(100dvh - 40px);
     padding: 18px;
     overflow: auto;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: var(--surface);
     color: var(--ink);
     box-shadow: var(--sh-8);
@@ -184,7 +184,7 @@
     place-items: center;
     width: 40px;
     height: 40px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     border-radius: 50%;
     background: var(--spot);
     color: var(--on-spot);
@@ -223,7 +223,7 @@
   .bar {
     height: 6px;
     margin: 4px 0 14px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
   }
 
   .bar span {

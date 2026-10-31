@@ -57,7 +57,7 @@
 
 <style>
   .group {
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: var(--surface);
     box-shadow: var(--sh-5);
   }
@@ -67,8 +67,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 6px 0 16px;
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--line);
+    color: var(--on-line);
     font-size: 12px;
     font-weight: 900;
     letter-spacing: 0.14em;
@@ -99,7 +99,7 @@
     justify-content: space-between;
     gap: 8px 20px;
     padding: 12px 16px;
-    border-bottom: 2px solid var(--ink);
+    border-bottom: 2px solid var(--line);
   }
 
   .row:last-child {
@@ -126,7 +126,7 @@
   .tag {
     margin-left: 8px;
     padding: 1px 6px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     font-size: 10px;
     font-style: normal;
     font-weight: 900;
@@ -147,7 +147,7 @@
     flex: 1;
     min-width: 0;
     height: 44px;
-    accent-color: var(--ink);
+    accent-color: var(--line);
   }
 
   output {
@@ -161,7 +161,7 @@
     width: 52px;
     height: 36px;
     padding: 0;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     background: none;
   }
 
@@ -178,7 +178,7 @@
     position: relative;
     width: 52px;
     height: 28px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     background: var(--paper);
   }
 
@@ -188,7 +188,7 @@
     left: 2px;
     width: 20px;
     height: 20px;
-    background: var(--ink);
+    background: var(--line);
     transition: transform 0.12s;
   }
 

@@ -273,7 +273,7 @@
     padding: 14px 16px;
     background: var(--surface);
     color: var(--ink);
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     box-shadow: var(--sh-5);
   }
 
@@ -312,7 +312,7 @@
     align-items: center;
     gap: 12px 28px;
     padding: 14px var(--gutter);
-    border-bottom: 3px solid var(--ink);
+    border-bottom: 3px solid var(--line);
   }
 
   .logo {
@@ -326,7 +326,7 @@
     flex: none;
     width: 30px;
     height: 30px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     border-radius: 50%;
     background: var(--spot);
   }
@@ -338,7 +338,7 @@
 
   .kana {
     padding: 3px 6px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     font-size: 11px;
     font-weight: 900;
     letter-spacing: 0.18em;
@@ -371,8 +371,8 @@
   }
 
   nav a[aria-current='page'] {
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--line);
+    color: var(--on-line);
   }
 
   /* Against the far edge, whatever stands before it. */
@@ -396,7 +396,7 @@
     right: -6px;
     width: 14px;
     height: 14px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     border-radius: 50%;
     background: var(--spot);
   }
@@ -459,7 +459,7 @@
     gap: 0;
     padding: 0 var(--safe-right) var(--safe-bottom) var(--safe-left);
     overflow: visible;
-    border-top: 3px solid var(--ink);
+    border-top: 3px solid var(--line);
     background: var(--paper);
     user-select: none;
     -webkit-touch-callout: none;

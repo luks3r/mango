@@ -253,7 +253,7 @@
   }
 
   .rows:not(.cells) > li:nth-child(even) {
-    background: color-mix(in srgb, var(--ink) 12%, transparent);
+    background: color-mix(in srgb, var(--line) 12%, transparent);
   }
 
   /* The long list takes as many columns as fit, so that a button is never far from its name:
@@ -265,7 +265,7 @@
   }
 
   .cells > li {
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
   }
 
   .cells .tools {

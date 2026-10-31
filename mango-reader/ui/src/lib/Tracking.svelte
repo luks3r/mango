@@ -206,7 +206,7 @@
 
   h2 {
     padding-bottom: 10px;
-    border-bottom: 3px solid var(--ink);
+    border-bottom: 3px solid var(--line);
     font-size: 20px;
   }
 
@@ -240,7 +240,7 @@
     gap: 6px;
     min-height: 44px;
     padding: 0 10px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     background: var(--surface);
     font-size: 12px;
     font-weight: 900;

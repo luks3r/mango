@@ -4,15 +4,16 @@ Design direction "Tankōbon": manga-print look. Heavy ink lines, hard offset sha
 
 ## Tokens
 
-Everything derives from three:
+Everything derives from four:
 
 | Token | Role |
 |---|---|
 | `paper` | Background |
-| `ink` | Text, borders, shadows |
+| `ink` | Text |
+| `line` | Outlines, filled boxes, hard shadows, halftone dots. The ink unless the owner picks the spot colour or one of their own |
 | `spot` | Accent fills: primary button, badges, highlights |
 
-Derived: `surface` (cards, inputs), `muted` (secondary text), `on-spot` (text on a spot fill).
+Derived: `surface` (cards, inputs), `muted` (secondary text), `on-spot` (text on a spot fill), `on-line` (text on a filled box: whichever of paper and ink reads better on it).
 
 ## Presets
 
@@ -30,10 +31,11 @@ Spot colours: Mango `#FFC400`, Tangerine `#FF8A1F`, Guava `#FF6B8B`, Mint `#6EE7
 ## Rules
 
 - Dark themes are paper and ink swapped. Nothing else changes.
-- Hard shadows take the ink colour, so they stay visible on dark paper.
+- Lines take the ink colour by default, so they stay visible on dark paper. The owner may give them the spot colour or one of their own instead (`line`: `ink`, `spot` or a hex colour); their own stays the same in both palettes. Below 3:1 against the paper of a palette in use, Settings warns.
+- Focus rings stay ink: they must be seen whatever the line colour.
 - `on-spot` is chosen automatically, dark or light, for contrast with the spot colour.
 - Custom colours: the user picks paper, ink and spot. If ink on paper is below 7:1 contrast, warn and do not save silently.
-- Borders 3px ink. No gradients. Square corners; pills only for chips and badges.
+- Borders 3px, in the line colour. No gradients. Square corners; pills only for chips and badges.
 - Never signal state by colour alone.
 - Fonts: Dela Gothic One (display), Zen Kaku Gothic New (body).
 

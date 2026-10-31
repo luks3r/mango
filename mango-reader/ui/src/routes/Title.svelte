@@ -931,7 +931,7 @@
     z-index: 5;
     margin: 0 calc(-1 * var(--gutter));
     padding: 10px var(--gutter);
-    border-bottom: 3px solid var(--ink);
+    border-bottom: 3px solid var(--line);
     background: var(--paper);
   }
 
@@ -1027,7 +1027,7 @@
   .stats {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: var(--surface);
   }
 
@@ -1036,7 +1036,7 @@
     flex-direction: column;
     align-items: center;
     padding: 10px 4px;
-    border-right: 3px solid var(--ink);
+    border-right: 3px solid var(--line);
   }
 
   .stats div:last-child {
@@ -1211,7 +1211,7 @@
     justify-content: center;
     gap: 14px;
     padding: 14px max(var(--gutter), var(--safe-right)) calc(14px + var(--safe-bottom)) max(var(--gutter), var(--safe-left));
-    border-top: 3px solid var(--ink);
+    border-top: 3px solid var(--line);
     background: var(--paper);
   }
 

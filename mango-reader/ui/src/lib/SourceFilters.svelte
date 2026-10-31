@@ -168,7 +168,7 @@
   hr {
     margin: 4px 0;
     border: 0;
-    border-top: 2px solid var(--ink);
+    border-top: 2px solid var(--line);
   }
 
   .row {
@@ -187,7 +187,7 @@
   }
 
   .group {
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
   }
 
   summary {

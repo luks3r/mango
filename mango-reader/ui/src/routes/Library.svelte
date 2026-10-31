@@ -396,7 +396,7 @@
   }
 
   .progress .meter span {
-    border-right: 3px solid var(--ink);
+    border-right: 3px solid var(--line);
     background: var(--spot);
   }
 
@@ -512,7 +512,7 @@
   }
 
   .slot.picked {
-    outline: 4px solid var(--ink);
+    outline: 4px solid var(--line);
     outline-offset: 6px;
   }
 
@@ -525,7 +525,7 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: var(--spot);
     color: var(--on-spot);
   }

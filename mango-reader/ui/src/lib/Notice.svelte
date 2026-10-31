@@ -30,12 +30,12 @@
     align-items: center;
     gap: 10px 14px;
     padding: 18px 20px;
-    border: 2px dashed var(--ink);
+    border: 2px dashed var(--line);
     font-weight: 700;
   }
 
   .problem {
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: var(--surface);
     box-shadow: var(--sh-4);
   }

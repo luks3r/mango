@@ -48,20 +48,20 @@
   .share {
     margin-left: auto;
     padding: 2px 8px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--line);
     color: var(--ink) !important;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
   .share.near {
-    background: var(--ink);
-    color: var(--paper) !important;
+    background: var(--line);
+    color: var(--on-line) !important;
   }
 
   .bar {
     height: 22px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--line);
     background: var(--paper);
     box-shadow: var(--sh-4);
   }
@@ -70,13 +70,13 @@
     display: block;
     height: 100%;
     min-width: 3px;
-    border-right: 3px solid var(--ink);
+    border-right: 3px solid var(--line);
     background: var(--spot);
     transition: width 0.3s ease-out;
   }
 
   .bar.near span {
-    background: repeating-linear-gradient(-45deg, var(--ink) 0 5px, var(--spot) 5px 11px);
+    background: repeating-linear-gradient(-45deg, var(--line) 0 5px, var(--spot) 5px 11px);
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -1,4 +1,4 @@
-// The theme: three colours picked by the owner, the rest derived.
+// The theme: four colours picked by the owner, the rest derived.
 // See docs/features/07-themes.md.
 
 import { prefs, setPref } from './prefs.svelte';
@@ -12,6 +12,9 @@ export type Theme = {
   light: string;
   dark: string;
   spot: string;
+  /** What is drawn rather than written: outlines, filled boxes, hard shadows, halftone
+   *  dots. "ink", "spot", or a colour of the owner's own. */
+  line: string;
   custom: { paper: string; ink: string };
   shadows: boolean;
   dots: boolean;
@@ -41,6 +44,7 @@ export const DEFAULT_THEME: Theme = {
   light: 'Paper',
   dark: 'Midnight',
   spot: '#FFC400',
+  line: 'ink',
   custom: { paper: '#F1F1EC', ink: '#111111' },
   shadows: true,
   dots: true,
@@ -84,10 +88,16 @@ export function sound(raw: unknown): Theme {
     light: known(t.light) ? t.light : DEFAULT_THEME.light,
     dark: known(t.dark) ? t.dark : DEFAULT_THEME.dark,
     spot: isHex(t.spot) ? t.spot : DEFAULT_THEME.spot,
+    line: t.line === 'spot' || isHex(t.line) ? t.line : 'ink',
     custom: isHex(t.custom?.paper) && isHex(t.custom?.ink) ? { paper: t.custom.paper, ink: t.custom.ink } : DEFAULT_THEME.custom,
     shadows: t.shadows !== false,
     dots: t.dots !== false,
   };
+}
+
+/** The colour lines and boxes take with this palette. */
+export function lineColour(t: Theme, colours: Palette): string {
+  return t.line === 'ink' ? colours.ink : t.line === 'spot' ? t.spot : t.line;
 }
 
 export function palette(theme: Theme, name: string): Palette {
@@ -122,6 +132,10 @@ export function apply(t: Theme = theme.value) {
   root.style.setProperty('--spot', t.spot);
   // Text on the spot colour is whichever of dark and light reads better.
   root.style.setProperty('--on-spot', contrast(t.spot, '#111111') >= contrast(t.spot, '#FFFFFF') ? '#111111' : '#FFFFFF');
+  const line = lineColour(t, colours);
+  root.style.setProperty('--line', line);
+  // Text on a filled box is whichever of paper and ink reads better on it.
+  root.style.setProperty('--on-line', contrast(line, colours.paper) >= contrast(line, colours.ink) ? colours.paper : colours.ink);
   // A phone draws its own clock in white over an app opened from its home screen: the band behind it is the darker of the two.
   root.style.setProperty('--bar', luminance(colours.paper) < luminance(colours.ink) ? colours.paper : colours.ink);
   for (const meta of document.querySelectorAll('meta[name="theme-color"]')) meta.setAttribute('content', colours.paper);

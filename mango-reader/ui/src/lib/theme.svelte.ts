@@ -15,6 +15,53 @@ export type Theme = {
   custom: { paper: string; ink: string };
   shadows: boolean;
   dots: boolean;
+  /** A name from TEXT_FONTS: body text, controls, everything but headings. */
+  font: string;
+  /** A name from DISPLAY_FONTS, for headings and the logo. */
+  display: string;
+};
+
+/** A font to pick. The built-in ones come with the page; the others are fetched once picked. */
+type Font = { stack: string; weight?: number; load?: () => Promise<unknown> };
+
+// The fonts beyond the two built in, in Latin and Cyrillic only: each is fetched once
+// picked, and within it the browser fetches only the scripts a page's text needs.
+const scripts = (files: Record<string, () => Promise<unknown>>) => () => Promise.all(Object.values(files).map((load) => load()));
+
+export const TEXT_FONTS: Record<string, Font> = {
+  'Zen Kaku Gothic': { stack: "'Zen Kaku Gothic New', 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif" },
+  'Noto Sans': {
+    stack: "'Noto Sans', system-ui, sans-serif",
+    load: scripts(import.meta.glob('/node_modules/@fontsource/noto-sans/{latin,latin-ext,cyrillic,cyrillic-ext}-{400,500,700,900}.css')),
+  },
+  Inter: {
+    stack: "'Inter', system-ui, sans-serif",
+    load: scripts(import.meta.glob('/node_modules/@fontsource/inter/{latin,latin-ext,cyrillic,cyrillic-ext}-{400,500,700,900}.css')),
+  },
+  Rubik: {
+    stack: "'Rubik', system-ui, sans-serif",
+    load: scripts(import.meta.glob('/node_modules/@fontsource/rubik/{latin,latin-ext,cyrillic,cyrillic-ext}-{400,500,700,900}.css')),
+  },
+  'PT Sans': {
+    stack: "'PT Sans', system-ui, sans-serif",
+    load: scripts(import.meta.glob('/node_modules/@fontsource/pt-sans/{latin,latin-ext,cyrillic,cyrillic-ext}-{400,700}.css')),
+  },
+  "This device's": { stack: 'system-ui, sans-serif' },
+};
+
+export const DISPLAY_FONTS: Record<string, Font> = {
+  'Dela Gothic One': { stack: "'Dela Gothic One', 'Arial Black', sans-serif" },
+  'Russo One': {
+    stack: "'Russo One', 'Arial Black', sans-serif",
+    load: scripts(import.meta.glob('/node_modules/@fontsource/russo-one/{latin,latin-ext,cyrillic}-400.css')),
+  },
+  Unbounded: {
+    stack: "'Unbounded', 'Arial Black', sans-serif",
+    weight: 800,
+    load: scripts(import.meta.glob('/node_modules/@fontsource/unbounded/{latin,latin-ext,cyrillic,cyrillic-ext}-800.css')),
+  },
+  // Headings in the text font, at its heaviest.
+  'Same as text': { stack: '', weight: 900 },
 };
 
 export const PRESETS: Record<string, Palette> = {
@@ -44,6 +91,8 @@ export const DEFAULT_THEME: Theme = {
   custom: { paper: '#F1F1EC', ink: '#111111' },
   shadows: true,
   dots: true,
+  font: 'Zen Kaku Gothic',
+  display: 'Dela Gothic One',
 };
 
 const KEY = 'mango.theme';
@@ -87,6 +136,8 @@ export function sound(raw: unknown): Theme {
     custom: isHex(t.custom?.paper) && isHex(t.custom?.ink) ? { paper: t.custom.paper, ink: t.custom.ink } : DEFAULT_THEME.custom,
     shadows: t.shadows !== false,
     dots: t.dots !== false,
+    font: typeof t.font === 'string' && t.font in TEXT_FONTS ? t.font : DEFAULT_THEME.font,
+    display: typeof t.display === 'string' && t.display in DISPLAY_FONTS ? t.display : DEFAULT_THEME.display,
   };
 }
 
@@ -120,6 +171,12 @@ export function apply(t: Theme = theme.value) {
   root.style.setProperty('--ink', colours.ink);
   root.style.setProperty('--surface', colours.surface);
   root.style.setProperty('--spot', t.spot);
+  const [text, heading] = [TEXT_FONTS[t.font], DISPLAY_FONTS[t.display]];
+  // Until a picked font arrives, and when it cannot (offline), the stack's next one stands in.
+  for (const font of [text, heading]) font.load?.().catch(() => {});
+  root.style.setProperty('--font-text', text.stack);
+  root.style.setProperty('--font-display', heading.stack || text.stack);
+  root.style.setProperty('--display-weight', String(heading.weight ?? 400));
   // Text on the spot colour is whichever of dark and light reads better.
   root.style.setProperty('--on-spot', contrast(t.spot, '#111111') >= contrast(t.spot, '#FFFFFF') ? '#111111' : '#FFFFFF');
   // A phone draws its own clock in white over an app opened from its home screen: the band behind it is the darker of the two.

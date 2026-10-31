@@ -32,4 +32,5 @@ In the Docker image only
   Exception), Debian's base system, and the DejaVu fonts.
 
 Fonts in the web UI
-  Dela Gothic One and Zen Kaku Gothic New, both under the SIL Open Font License 1.1.
+  Dela Gothic One, Zen Kaku Gothic New, Noto Sans, Inter, Rubik, PT Sans, Russo One and
+  Unbounded, all under the SIL Open Font License 1.1.

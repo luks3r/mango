@@ -1,11 +1,23 @@
 /* Tankōbon: manga print. Ink lines, hard offset shadows, halftone dots, one spot colour.
    Everything is drawn from the tokens below; lib/theme.svelte.ts sets them. */
 
+/* The built-in fonts in Latin and Cyrillic; a browser fetches a script's file only for text in it.
+   The other fonts a reader may pick are fetched by lib/theme.svelte.ts once picked. */
 @import '@fontsource/dela-gothic-one/latin-400.css';
+@import '@fontsource/dela-gothic-one/latin-ext-400.css';
+@import '@fontsource/dela-gothic-one/cyrillic-400.css';
 @import '@fontsource/zen-kaku-gothic-new/latin-400.css';
 @import '@fontsource/zen-kaku-gothic-new/latin-500.css';
 @import '@fontsource/zen-kaku-gothic-new/latin-700.css';
 @import '@fontsource/zen-kaku-gothic-new/latin-900.css';
+@import '@fontsource/zen-kaku-gothic-new/latin-ext-400.css';
+@import '@fontsource/zen-kaku-gothic-new/latin-ext-500.css';
+@import '@fontsource/zen-kaku-gothic-new/latin-ext-700.css';
+@import '@fontsource/zen-kaku-gothic-new/latin-ext-900.css';
+@import '@fontsource/zen-kaku-gothic-new/cyrillic-400.css';
+@import '@fontsource/zen-kaku-gothic-new/cyrillic-500.css';
+@import '@fontsource/zen-kaku-gothic-new/cyrillic-700.css';
+@import '@fontsource/zen-kaku-gothic-new/cyrillic-900.css';
 
 :root {
   --paper: #f1f1ec;
@@ -33,6 +45,10 @@
   --safe-right: calc(env(safe-area-inset-right, 0px) / var(--zoom));
   --safe-bottom: calc(env(safe-area-inset-bottom, 0px) / var(--zoom));
   --safe-left: calc(env(safe-area-inset-left, 0px) / var(--zoom));
+  /* The fonts the theme picks; lib/theme.svelte.ts sets them. */
+  --font-text: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif;
+  --font-display: 'Dela Gothic One', 'Arial Black', sans-serif;
+  --display-weight: 400;
   color-scheme: light;
 }
 
@@ -100,7 +116,7 @@ body {
   padding-top: env(safe-area-inset-top, 0px);
   background: var(--paper);
   color: var(--ink);
-  font: 500 15px/1.4 'Zen Kaku Gothic New', 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif;
+  font: 500 15px/1.4 var(--font-text);
 }
 
 /* The band the clock is read against. No height in a browser, where the page starts below it. */
@@ -161,8 +177,8 @@ p {
 }
 
 .display {
-  font-family: 'Dela Gothic One', 'Arial Black', sans-serif;
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
   line-height: 1.05;
 }
 

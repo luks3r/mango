@@ -35,7 +35,8 @@ Spot colours: Mango `#FFC400`, Tangerine `#FF8A1F`, Guava `#FF6B8B`, Mint `#6EE7
 - Custom colours: the user picks paper, ink and spot. If ink on paper is below 7:1 contrast, warn and do not save silently.
 - Borders 3px ink. No gradients. Square corners; pills only for chips and badges.
 - Never signal state by colour alone.
-- Fonts: Dela Gothic One (display), Zen Kaku Gothic New (body).
+- Fonts: Dela Gothic One (display), Zen Kaku Gothic New (body), by default. Both are shipped in Latin, Latin Extended and Cyrillic.
+- The owner may pick others (`font`, `display` in the theme): Noto Sans, Inter, Rubik, PT Sans or the device's own for text; Russo One, Unbounded or the text font for headings. Every one covers Latin and Cyrillic. They are in the UI bundle but fetched only once picked, and only the scripts a page's text needs.
 
 ## MVP
 

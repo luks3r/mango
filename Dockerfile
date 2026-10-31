@@ -151,6 +151,12 @@ COPY mango-desktop/Cargo.toml mango-desktop/Cargo.lock mango-desktop/
 COPY --from=ui /ui/node_modules/svelte/LICENSE.md ui/svelte
 COPY --from=ui /ui/node_modules/@fontsource/dela-gothic-one/LICENSE ui/dela-gothic-one
 COPY --from=ui /ui/node_modules/@fontsource/zen-kaku-gothic-new/LICENSE ui/zen-kaku-gothic-new
+COPY --from=ui /ui/node_modules/@fontsource/noto-sans/LICENSE ui/noto-sans
+COPY --from=ui /ui/node_modules/@fontsource/inter/LICENSE ui/inter
+COPY --from=ui /ui/node_modules/@fontsource/rubik/LICENSE ui/rubik
+COPY --from=ui /ui/node_modules/@fontsource/pt-sans/LICENSE ui/pt-sans
+COPY --from=ui /ui/node_modules/@fontsource/russo-one/LICENSE ui/russo-one
+COPY --from=ui /ui/node_modules/@fontsource/unbounded/LICENSE ui/unbounded
 RUN --mount=type=cache,id=mango-notices-registry,target=/usr/local/cargo/registry \
     mkdir mango-reader/src mango-desktop/src && touch mango-reader/src/main.rs mango-desktop/src/main.rs \
  && rule=-------------------------------------------------------------------------------- \
@@ -161,7 +167,8 @@ RUN --mount=type=cache,id=mango-notices-registry,target=/usr/local/cargo/registr
         && cargo about generate --locked -m "${part#*:}/Cargo.toml" -c mango-reader/about.toml mango-reader/about.hbs \
         || exit 1; \
       done \
-   && for part in "Svelte:svelte" "Dela Gothic One:dela-gothic-one" "Zen Kaku Gothic New:zen-kaku-gothic-new"; do \
+   && for part in "Svelte:svelte" "Dela Gothic One:dela-gothic-one" "Zen Kaku Gothic New:zen-kaku-gothic-new" \
+                   "Noto Sans:noto-sans" "Inter:inter" "Rubik:rubik" "PT Sans:pt-sans" "Russo One:russo-one" "Unbounded:unbounded"; do \
         printf '\n\n%s\n%s, in the web UI\n%s\n\n' "$rule" "${part%%:*}" "$rule" && cat "ui/${part#*:}" || exit 1; \
       done; } > /THIRD-PARTY-LICENSES.txt \
  && test "$(wc -c < /THIRD-PARTY-LICENSES.txt)" -gt 20000

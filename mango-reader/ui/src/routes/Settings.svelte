@@ -16,7 +16,7 @@
   import { againTour } from '../lib/guide.svelte';
   import { ago } from '../lib/util';
   import { checkVersion, version as about } from '../lib/version.svelte';
-  import { activeName, contrast, isHex, palette, PRESETS, saveTheme, sound, SPOTS, theme, type Theme } from '../lib/theme.svelte';
+  import { activeName, contrast, DISPLAY_FONTS, isHex, palette, PRESETS, saveTheme, sound, SPOTS, TEXT_FONTS, theme, type Theme } from '../lib/theme.svelte';
 
   // One group is on screen at a time. Which one is in the address: #/settings/<id>.
   const TABS: { id: string; label: string; icon: IconName; about: string }[] = [
@@ -929,6 +929,29 @@
                 {agreed ? 'Press again to use them anyway.' : ''}
               </p>
             {/if}
+          </div>
+        </section>
+
+        <section class="card">
+          <h3>Type</h3>
+          <div class="set">
+            <div class="what"><strong>Text</strong><span>Everything but headings. Each of these covers Latin and Cyrillic.</span></div>
+            <div class="how">
+              <select class="btn" aria-label="Text font" value={t.font} onchange={(e) => change({ font: e.currentTarget.value })}>
+                {#each Object.keys(TEXT_FONTS) as name (name)}<option value={name}>{name}</option>{/each}
+              </select>
+            </div>
+          </div>
+          <div class="set">
+            <div class="what"><strong>Headings</strong><span>Titles, section heads and the logo.</span></div>
+            <div class="how">
+              <select class="btn" aria-label="Heading font" value={t.display} onchange={(e) => change({ display: e.currentTarget.value })}>
+                {#each Object.keys(DISPLAY_FONTS) as name (name)}<option value={name}>{name}</option>{/each}
+              </select>
+            </div>
+          </div>
+          <div class="set stack">
+            <p class="sample type"><span class="display">Ковбой Бибоп · Cowboy Bebop</span>Съешь же ещё этих мягких французских булок. The quick brown fox jumps over the lazy dog.</p>
           </div>
         </section>
 
@@ -2226,6 +2249,20 @@
     padding: 0 14px;
     border: 2px solid;
     font-weight: 700;
+  }
+
+  /* The two fonts as they are picked, in Latin and Cyrillic. */
+  .sample.type {
+    display: grid;
+    gap: 6px;
+    padding: 12px 14px;
+    border-color: var(--ink);
+    background: var(--surface);
+    font-weight: 500;
+  }
+
+  .sample.type .display {
+    font-size: 22px;
   }
 
   .warn {
